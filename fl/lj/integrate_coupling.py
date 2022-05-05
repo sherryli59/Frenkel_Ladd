@@ -24,14 +24,18 @@ lamb=loadtxt('../../lambda_leggauss.dat')
 gamma=loadtxt('../../gamma_leggauss.dat')
 weight=loadtxt('../../weight_leggauss.dat')
 for alpha in k:
+        dE_0=array([average(loadtxt('output/fl/alpha%ddU%d.dat'%(int(alpha),i))) for i in arange(nsteps)])
+        savetxt('thermo_integration_alpha%d.dat'%int(alpha), transpose([lamb, dE_0/N]),
+                header='lambda dE', fmt='%4f %.4f')
+        W0=np.sum(np.multiply(dE_0,weight))*beta
         dE_1=array([average(loadtxt('output/phase1/alpha%ddU%d.dat'%(int(alpha),i))) for i in arange(nsteps)])
         savetxt('thermo_integration_alpha%d.dat'%int(alpha), transpose([lamb, dE_1/N]),
                 header='lambda dE', fmt='%4f %.4f')
-        W1=np.sum(np.multiply(dE_1,weight))
+        W1=np.sum(np.multiply(dE_1,weight))*beta
         dE_2=array([average(loadtxt('output/phase2/alpha%ddU%d.dat'%(int(alpha),i))) for i in arange(nsteps)])
         savetxt('thermo_integration_alpha%d.dat'%int(alpha), transpose([gamma, dE_2/N]),
                 header='lambda dE', fmt='%4f %.4f')
-        W2=np.sum(np.multiply(dE_2,weight))
+        W2=np.sum(np.multiply(dE_2,weight))*beta
         W = W1+W2
         ################################################################################
         # Compute free energy.
@@ -45,7 +49,7 @@ for alpha in k:
 
         # Compute absolute free energy per atom [Eq.(16) in the paper] and save data.
         F = (F_harm - W + F_CM) / N # [kT/atom].
-        print (F_harm / N, W1/N, W2/N, F_CM/N)
+        print (F_harm / N, W0/N, W1/N, W2/N, F_CM/N)
         print (average(F),std(F))
         savetxt('free_energy_%d.dat'%alpha, transpose([F, F_harm/N, W/N, F_CM/N]),
                 header='F[kT/atom]  F_harm  W F_CM', fmt='%4f')

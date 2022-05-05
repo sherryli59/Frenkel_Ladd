@@ -57,7 +57,7 @@ long double LJPotential::pair_potential(Atom& atom1, Atom& atom2){
     pow_6 = pow(sigma/r,6);
     pow_6_shift = pow(sigma/cutoff,6);
     if (r<cutoff){
-        potent = 4.0*epsilon*((pow(pow_6, 2))-pow_6)- 4.0*epsilon*((pow(pow_6_shift, 2))-pow_6_shift); 
+        potent = 4.0*epsilon*((pow(pow_6, 2))-pow_6);//- 4.0*epsilon*((pow(pow_6_shift, 2))-pow_6_shift); 
     }
     else{
         potent=0.0;
@@ -84,7 +84,7 @@ long double LJPotential::compute_pair_dUdr(Atom& atom1, Atom& atom2){
     pow_6 = pow(sigma/r,6);
     pow_6_shift = pow(sigma/cutoff,6);
     if (r<cutoff){
-		return -24.0*epsilon/r*(2*(pow(pow_6, 2))-pow_6)+ 24.0*epsilon/cutoff*(2*(pow(pow_6_shift, 2))-pow_6_shift); //Currently I'm doing cut and shifted (should I?)
+		return -24.0*epsilon/r*(2*(pow(pow_6, 2))-pow_6);//+ 24.0*epsilon/cutoff*(2*(pow(pow_6_shift, 2))-pow_6_shift); //Currently I'm doing cut and shifted (should I?)
 	}
 	else{
 		return 0.0;
