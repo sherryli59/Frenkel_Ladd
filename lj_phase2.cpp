@@ -134,9 +134,9 @@ long double dUdgamma(LJPotential& pot, Conf& c, Box& box, vector<Atom>& lattice,
 	
 	    long double dU=pot.compute_pair_dUdr(one,two);
 	    if (dU!=0){
-        cout<<"dUdr:"<<dU<<endl;
+        //cout<<"dUdr:"<<dU<<endl;
         long double r=compute_distance(one,two,box);
-        cout<<"final separation:"<<r<<endl;
+        //cout<<"final separation:"<<r<<endl;
         // cout<<one.x<<","<<one.y<<","<<one.z<<endl;
         // cout<<two.x<<","<<two.y<<","<<two.z<<endl;
         long double rvec[3];
@@ -149,11 +149,11 @@ long double dUdgamma(LJPotential& pot, Conf& c, Box& box, vector<Atom>& lattice,
         rvec_ref[2]=min_image(one_ref.z,two_ref.z,box0.lz);
 		long double drdgamma=1.0 / r *(rvec[0]*rvec_ref[0]
 		+rvec[1]*rvec_ref[1]+rvec[2]*rvec_ref[2]);
-        cout<<"drdgamma:"<<drdgamma<<endl;
+        //cout<<"drdgamma:"<<drdgamma<<endl;
         dU*=drdgamma;
 	}
-        long double r0=compute_distance(one_ref,two_ref,box);
-        cout<<"initial separation:"<<r0<<endl;
+        //long double r0=compute_distance(one_ref,two_ref,box);
+        //cout<<"initial separation:"<<r0<<endl;
 	return(dU);
 }
 

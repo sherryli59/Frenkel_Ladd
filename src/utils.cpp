@@ -68,6 +68,8 @@ long double compute_distance(Atom& atom1, Atom&atom2, Box& box){
     return r;
 }
 
+
+
 void output_coord(Conf& frame, std::string& coutname){
 	std::ofstream coutfile(coutname.c_str(),ios::app);
 	coutfile << frame.natoms << endl;
@@ -86,3 +88,10 @@ void output_number(long double& number, std::string& coutname){
 void print_coord(Atom& atom){
 	cout<<"coordinate:("<<atom.x<<","<<atom.y<<","<<atom.z<<")"<<endl;
 }
+
+void read_xyz(Conf& frame,string& file_dir){
+	int natoms=frame.natoms;
+	std::ifstream in(file_dir);
+   //FINISH!
+}
+

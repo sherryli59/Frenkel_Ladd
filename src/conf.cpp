@@ -94,10 +94,10 @@ void Conf::update_frame(int& atom_index, long double& dx, long double& dy, long 
     atoms[atom_index].x+=dx;
     atoms[atom_index].y+=dy;
     atoms[atom_index].z+=dz;
+    shift_com(atom_index, dx, dy,dz);
     if (box.min_image){
         wrap_atom_coordinates(atoms[atom_index],box);
     }
-    shift_com(atom_index, dx, dy,dz);
 }
 void Conf::shift_com(int& atom_index, long double& dx, long double& dy, long double& dz){
     com[0]+=dx*atoms[atom_index].mass/mass;
@@ -109,23 +109,34 @@ void Conf::update_potential(long double& new_potential){
 }
 
 void Conf::wrap_atom_coordinates(Atom& atom, Box& box){
-            long double x,y,z;
-            if (atom.x<box.x0){
-                atom.x+=box.lx;
-            }
-            else if (atom.x>box.x1){
-                atom.x-=box.lx;
-            }
-            if (atom.y<box.y0){
-                atom.y+=box.ly;
-            }
-            else if (atom.y>box.y1){
-                atom.y-=box.ly;
-            }
-            if (atom.z<box.z0){
-                atom.z+=box.lz;
-            }
-            else if (atom.x>box.z1){
-                atom.z-=box.lz;
-            }
+        long double x,y,z;
+        if (atom.x-com[0]<box.x0){
+            atom.x+=box.lx;
         }
+        else if (atom.x-com[0]>box.x1){
+            atom.x-=box.lx;
+        }
+        if (atom.y-com[1]<box.y0){
+            atom.y+=box.ly;
+        }
+        else if (atom.y-com[1]>box.y1){
+            atom.y-=box.ly;
+        }
+        if (atom.z-com[2]<box.z0){
+            atom.z+=box.lz;
+        }
+        else if (atom.z-com[2]>box.z1){
+            atom.z-=box.lz;
+        }
+    }
+void Conf::recenter(){
+    for (unsigned int i = 0; i < natoms; ++i)
+		{
+			atoms[i].x -= com[0];
+			atoms[i].y -= com[1];
+			atoms[i].z -= com[2];
+		}
+    for (int i=0; i<3; ++i){
+        com[i]=0;
+    }
+}

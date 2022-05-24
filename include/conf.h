@@ -42,5 +42,7 @@ class Conf
         void shift_com(int& atom_index, long double& dx, long double& dy, long double& dz);
         void update_potential(long double& new_potential);
         void wrap_atom_coordinates(Atom& atom, Box& box);
+        void recenter();
+
 };
 #endif
